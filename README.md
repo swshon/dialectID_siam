@@ -4,6 +4,7 @@ Siamese network based dimensionality reduction for robust dialect identification
 # Requirment
 * Python >2.6 (better with jupyter notebook)
 * Tensorflow
+* MGB-3 data (https://github.com/qcri/dialectID/tree/master/data)
 
 # Training Model
 * train_*.ipynb
