@@ -13,23 +13,32 @@ Siamese network based dimensionality reduction for robust dialect identification
 
 # Performance evaluation example of i-vector feature on MGB-3 Test dataset
 
-*Confusion matrix
-      EGY   GLF   LAB   MSA   NOR
- EGY  225.   13.   37.   11.   24.
- GLF   11.  178.   31.   16.   12.
- LAB   43.   45.  212.   14.   31.
- MSA    5.    5.   10.  208.   10.
- NOR   18.    9.   44.   13.  267.
-*Precision
-        EGY         GLF         LAB         MSA         NOR
- 0.72580645  0.71774194  0.61449275  0.87394958  0.76068376
-*Recall
-        EGY         GLF         LAB         MSA         NOR
- 0.74503311  0.712       0.63473054  0.79389313  0.77616279
-* Overall performance
-Accurary  : 0.731
-Precision : 0.739
-Recall    : 0.732
+* Confusion matrix
+
+| |EGY|GLF|LAB|MSA|NOR|
+|-|-|-|-|-|-|
+ |EGY|  225|   13|  37 |  11 |   24|
+ |GLF|   11|  178|   31|   16|   12|
+ |LAB|   43|   45|  212|   14|   31|
+ |MSA|    5|    5|   10|  208|   10|
+ |NOR|   18|    9|   44|   13|  267|
+
+* Precision
+
+|EGY|GLF|LAB|MSA|NOR|
+|-|-|-|-|-|
+|0.73|0.72|0.61|0.87|0.76|
+
+* Recall
+
+|EGY|GLF|LAB|MSA|NOR|
+|-|-|-|-|-|
+|0.75|0.71|0.63|0.79|0.78|
+
+***Overall performance***
+
+| Accurary  : 0.731| Precision : 0.739| Recall    : 0.732|
+|-|-|-|
 
 
 
