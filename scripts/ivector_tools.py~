@@ -1,3 +1,7 @@
+
+# coding: utf-8
+
+
 import numpy as np
 import os, re,gzip,struct
 import scipy as sc
@@ -20,7 +24,6 @@ def read_ivector_text(file):
     file.close()
 
     return ivector
-
 def read_ivector_binary(file, point):
 
     ivecfile = open(file,'r')
@@ -39,11 +42,23 @@ def read_ivector_binary(file, point):
         sample_type = 'float64'
 
     temp=ivecfile.read(1) #int-size
+
     vec_size=struct.unpack('<i',ivecfile.read(4))[0]
+
+
     ivector = np.fromfile(ivecfile,sample_type,vec_size)
+
+#     print binary
+#     print sample_type
+#     print temp
+#     print vec_size
+#     print np.sum(np.power(ivector,2))
+
     ivecfile.close()
 
+
     return ivector
+
 
 def read_ivector_key(file):
     spkid = []
@@ -58,7 +73,6 @@ def read_ivector_key(file):
         total_num +=1
     
     return spkid, ivec_pointer,total_num
-
 def length_norm(mat):
     mat = mat.transpose()
     norm_mat = []
@@ -66,13 +80,19 @@ def length_norm(mat):
         temp = line/np.math.sqrt(sum(np.power(line,2)))
         norm_mat.append(temp)
     norm_mat = np.array(norm_mat)
-
     return norm_mat.transpose()
+
+
 
 def lda(mat,label):
     # mat = observation x dim ( for example, 8x600 for 8 obs and 600dim ivector)
     # label = num_utts (for example, [2,4,2] for 8 observations)
-
+    
+#    ivec = [[0,1,2], [0,5,10],[1,5,3],[5,2,1],[5,3,6]]
+#    ivec = np.array(ivec,dtype='float')
+    # print np.shape(ivec)
+    # print ivec
+#    label = [2,3]
     #Sw = np.inner(mat.transpose(), mat.transpose())
     Sw = np.dot(mat.transpose(), mat)
     mu_c=[]
@@ -80,22 +100,28 @@ def lda(mat,label):
     for iter1, iter2 in enumerate(label):
         idx = np.arange(pre_iter2,pre_iter2+iter2)
         pre_iter2 += iter2
+
         temp = mat[idx]
         mu_c.append(np.math.sqrt(iter2) * np.mean(temp,axis=0))
-
+#        mu_c.append(np.mean(temp,axis=0))
     mu_c = np.array(mu_c)
-
+#    Sb = np.inner(mu_c.transpose(),mu_c.transpose())
     Sb = np.dot(mu_c.transpose(),mu_c)
     [D, V] = np.linalg.eig(np.linalg.inv(Sw).dot(Sb))
+#    D = np.real(D)
+#    V = np.real(V)
     descend_idx =  (-D).argsort()
     V= V[:,descend_idx]
     V = length_norm(V)
+    #print V
     
     return V
 
 
 def load_ivector_fromtextark(foldername,num_arks):
 #loading ivectors from text-ark files
+#foldername = '../db_ivectors/data/ivectors_callmynet_enrollment_gmm_2048/'
+#num_arks = 3 
     
     spkid, point, total_num=read_ivector_key(foldername+'ivector.scp')
     ivec1 = []

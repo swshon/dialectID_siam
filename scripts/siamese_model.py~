@@ -12,6 +12,7 @@ class siamese:
             scope.reuse_variables()
             self.a1,self.b2,self.o2 = self.network(self.x2)
             
+
         # Create loss
         self.y_ = tf.placeholder(tf.float32, [None])
         self.loss = self.loss_with_cds()
@@ -24,6 +25,7 @@ class siamese:
         conv1 = self.conv_layer(x, kernel_size,stride,depth,'conv1')
         conv1r = tf.nn.relu(conv1)
         n_prev_weight = int(x.get_shape()[1])
+#        pool1 = tf.layers.max_pooling1d(conv1,4,2,'same')
         conv1_d = tf.reshape(conv1r,[-1, n_prev_weight/stride*depth])
         
         kernel_size =10
@@ -32,12 +34,15 @@ class siamese:
         conv2 = self.conv_layer(conv1_d, kernel_size,stride,depth,'conv2')
         conv2r = tf.nn.relu(conv2)
         n_prev_weight = int(conv1_d.get_shape()[1])
+#        pool2 = tf.layers.max_pooling1d(conv2,4,4,'same')
         conv2_d = tf.reshape(conv2r,[-1, n_prev_weight/stride*depth])
         
         fc1 = self.fc_layer(conv1_d, 1500, "fc1")
         ac1 = tf.nn.relu(fc1)
+#        fc1_drop = tf.nn.dropout(ac1, 0.1)
         fc2 = self.fc_layer(ac1, 600, "fc2")   
         ac2 = tf.nn.relu(fc2)
+#        fc2_drop = tf.nn.dropout(ac2, 0.1)
         fc3 = self.fc_layer(ac2, 200, "fc3")
         return fc1,fc2,fc3
     
@@ -51,9 +56,12 @@ class siamese:
 
     def fc_layer(self, bottom, n_weight, name):
         print( bottom.get_shape())
+        assert len(bottom.get_shape()) == 2
         n_prev_weight = bottom.get_shape()[1]
+#        initer = tf.truncated_normal_initializer(stddev=0.01)
         initer = self.xavier_init(int(n_prev_weight),n_weight)
         W = tf.get_variable(name+'W', dtype=tf.float32, shape=[n_prev_weight, n_weight], initializer=initer)
+#        b = tf.get_variable(name+'b', dtype=tf.float32, initializer=tf.constant(0.01, shape=[n_weight], dtype=tf.float32))
         b = tf.get_variable(name+'b', dtype=tf.float32, initializer=tf.random_uniform([n_weight],-0.001,0.001, dtype=tf.float32))
         fc = tf.nn.bias_add(tf.matmul(bottom, W), b)
         return fc
