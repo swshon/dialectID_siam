@@ -26,13 +26,13 @@ class siamese:
         n_prev_weight = int(x.get_shape()[1])
         conv1_d = tf.reshape(conv1r,[-1, n_prev_weight/stride*depth])
         
-        kernel_size =10
-        stride = 2
-        depth=10
-        conv2 = self.conv_layer(conv1_d, kernel_size,stride,depth,'conv2')
-        conv2r = tf.nn.relu(conv2)
-        n_prev_weight = int(conv1_d.get_shape()[1])
-        conv2_d = tf.reshape(conv2r,[-1, n_prev_weight/stride*depth])
+#        kernel_size =10
+#        stride = 2
+#        depth=10
+#        conv2 = self.conv_layer(conv1_d, kernel_size,stride,depth,'conv2')
+#        conv2r = tf.nn.relu(conv2)
+#        n_prev_weight = int(conv1_d.get_shape()[1])
+#        conv2_d = tf.reshape(conv2r,[-1, n_prev_weight/stride*depth])
         
         fc1 = self.fc_layer(conv1_d, 1500, "fc1")
         ac1 = tf.nn.relu(fc1)

@@ -60,14 +60,13 @@ def read_ivector_key(file):
     return spkid, ivec_pointer,total_num
 
 def length_norm(mat):
-    mat = mat.transpose()
     norm_mat = []
     for line in mat:
         temp = line/np.math.sqrt(sum(np.power(line,2)))
         norm_mat.append(temp)
     norm_mat = np.array(norm_mat)
 
-    return norm_mat.transpose()
+    return norm_mat
 
 def lda(mat,label):
     # mat = observation x dim ( for example, 8x600 for 8 obs and 600dim ivector)
