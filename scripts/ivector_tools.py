@@ -92,6 +92,26 @@ def lda(mat,label):
     
     return V
 
+def lda2(mat,label):
+    # mat = observation x dim ( for example, 8x600 for 8 obs and 600dim ivector)
+    # label = index num for all observations (for example, [0,1,1,2,0,2,1,0] for 8 observations with 3 class)
+
+    #Sw = np.inner(mat.transpose(), mat.transpose())
+    Sw = np.dot(mat.transpose(), mat)
+    
+    mu_c=[]
+    pre_iter2 = 0
+    for iter1, iter2 in enumerate(np.unique(label)):
+        temp = mat[label==iter1,:]
+        mu_c.append(np.math.sqrt(temp.shape[0]) * np.mean(temp,axis=0))
+    mu_c = np.array(mu_c)
+
+    Sb = np.dot(mu_c.transpose(),mu_c)
+    [D, V] = np.linalg.eig(np.linalg.inv(Sw).dot(Sb))
+    descend_idx =  (-D).argsort()
+    V= V[:,descend_idx]
+    
+    return V
 
 def load_ivector_fromtextark(foldername,num_arks):
 #loading ivectors from text-ark files
