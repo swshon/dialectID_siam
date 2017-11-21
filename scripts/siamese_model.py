@@ -51,7 +51,7 @@ class siamese:
 
     def fc_layer(self, bottom, n_weight, name):
         print( bottom.get_shape())
-        n_prev_weight = bottom.get_shape()[1]
+        n_prev_weight = int(bottom.get_shape()[1])
         initer = self.xavier_init(int(n_prev_weight),n_weight)
         W = tf.get_variable(name+'W', dtype=tf.float32, shape=[n_prev_weight, n_weight], initializer=initer)
         b = tf.get_variable(name+'b', dtype=tf.float32, initializer=tf.random_uniform([n_weight],-0.001,0.001, dtype=tf.float32))
