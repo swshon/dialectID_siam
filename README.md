@@ -1,4 +1,4 @@
-# dialectID_siam
+# Dialect identification using Siamese network
 Siamese network based dimensionality reduction for robust dialect identification (and as well as language recognition)
 
 # Requirment
